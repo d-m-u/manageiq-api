@@ -173,15 +173,15 @@ module Api
       end
     end
 
-    def retire_resource(type, id = nil, data = nil)
-      raise BadRequestError, "Must specify an id for retiring a #{type} resource" unless id
+    # def retire_resource(type, id = nil, data = nil)
+    #   raise BadRequestError, "Must specify an id for retiring a #{type} resource" unless id
 
-      api_action(type, id) do |klass|
-        vm = resource_search(id, type, klass)
-        api_log_info("Retiring #{vm_ident(vm)}")
-        retire_vm(vm, id, data)
-      end
-    end
+    #   api_action(type, id) do |klass|
+    #     vm = resource_search(id, type, klass)
+    #     api_log_info("Retiring #{vm_ident(vm)}")
+    #     retire_vm(vm, id, data)
+    #   end
+    # end
 
     def reset_resource(type, id = nil, _data = nil)
       raise BadRequestError, "Must specify an id for resetting a #{type} resource" unless id
@@ -274,13 +274,13 @@ module Api
       action_result(false, "Failed to set miq_server - #{err}")
     end
 
-    def request_retire_resource(type, id, _data = nil)
-      api_action(type, id) do |klass|
-        vm = resource_search(id, type, klass)
-        api_log_info("Retiring request of vm #{vm_ident(vm)}")
-        request_retire(vm)
-      end
-    end
+    # def request_retire_resource(type, id, _data = nil)
+    #   api_action(type, id) do |klass|
+    #     vm = resource_search(id, type, klass)
+    #     api_log_info("Retiring request of vm #{vm_ident(vm)}")
+    #     request_retire(vm)
+    #   end
+    # end
 
     def check_compliance_resource(type, id, _data = nil)
       api_action(type, id) do |klass|
@@ -505,14 +505,14 @@ module Api
       action_result(false, err.to_s)
     end
 
-    def request_retire(virtual_machine)
-      desc = "#{vm_ident(virtual_machine)} request retire"
+    # def request_retire(virtual_machine)
+    #   desc = "#{vm_ident(virtual_machine)} request retire"
 
-      task_id = queue_object_action(virtual_machine, desc, :method_name => "make_retire_request", :role => "automate", :args => [User.current_user.id])
-      action_result(true, desc, :task_id => task_id)
-    rescue StandardError => err
-      action_result(false, err.to_s)
-    end
+    #   task_id = queue_object_action(virtual_machine, desc, :method_name => "make_retire_request", :role => "automate", :args => [User.current_user.id])
+    #   action_result(true, desc, :task_id => task_id)
+    # rescue StandardError => err
+    #   action_result(false, err.to_s)
+    # end
 
     def request_compliance_check(vm)
       desc = "#{vm_ident(vm)} check compliance requested"
